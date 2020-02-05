@@ -29,8 +29,7 @@ public class Console {
             return converted;
 
         //If there're more items left in the list, recursively apply
-        else
-            return (new Application(buildExpression(tokens), converted));
+        return (new Application(buildExpression(tokens), converted));
     }
 
     private static Expression parse(String in) {
@@ -52,11 +51,11 @@ public class Console {
         }
 
         //Is the user trying to run something?
-        int runIndex = in.indexOf("run");
-        if(runIndex != -1) {
-            String toRun = in.substring(runIndex + 3);
+        boolean running = in.contains("run");
+        if(running) {
+            String toRun = in.replace("run", "");
             Expression result = parse(toRun);
-            return result.run();//Run the thing
+            return result.run();
         }
 
         //The user is just writing an expression
