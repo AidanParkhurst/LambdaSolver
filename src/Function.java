@@ -9,6 +9,13 @@ public class Function implements Expression {
 
     @Override
     public Expression feed(Expression var, Expression value) {
+        if(var != null) {
+            if(var.toString().equals(parameter.toString()))
+                return this;
+
+            return new Function(parameter, definition.feed(var, value));
+        }
+
         return definition.feed(parameter, value).run();
     }
 
