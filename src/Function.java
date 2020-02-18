@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Function implements Expression {
     private Variable parameter;
     private Expression definition;
@@ -21,7 +23,43 @@ public class Function implements Expression {
 
     @Override
     public Expression run() {
-        return this;
+        return new Function(parameter, definition.run());
+    }
+
+    @Override
+    public boolean canRun() {
+        return true;
+    }
+
+    @Override
+    public ArrayList<Variable> getFreeVars(ArrayList<Variable> bound) {
+        bound.add(parameter);
+
+        return definition.getFreeVars(bound);
+    }
+
+    @Override
+    public Expression alphaReduce(Variable free, boolean first) {
+        //If there are no potentially conflicting variables, just start alpha reduction on the definition
+        if(free == null)
+            return new Function(parameter, definition.alphaReduce(null,true));
+
+        //If we conflict with the free variable
+        if(parameter.toString().equals(free.toString())) {
+            //Ignore the conflict if we're the first function its being applied to (The conflict goes away in running)
+            if(first)
+                return new Function(parameter, definition.alphaReduce(null, true));
+            //Otherwise replace this function's parameter with a renamed version
+            else {
+                Expression fixedParam = parameter.feed(parameter, new Variable(parameter.toString() + "_"));
+                Expression fixedDefinition = definition.feed(parameter, fixedParam);
+                //Make sure to still do alpha reduction on the definition
+                return new Function((Variable) fixedParam, fixedDefinition.alphaReduce(null,true));
+            }
+        }
+
+        //If we don't conflict with this free variable, maybe an inner function will
+        return new Function(parameter, definition.alphaReduce(free, false));
     }
 
     @Override

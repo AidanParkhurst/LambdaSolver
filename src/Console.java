@@ -54,7 +54,9 @@ public class Console {
         boolean running = in.contains("run");
         if(running) {
             String toRun = in.replace("run", "");
-            Expression result = parse(toRun);
+            Expression parsed = parse(toRun);
+            Expression result = parsed.alphaReduce(null, true);
+
             return result.run();
         }
 

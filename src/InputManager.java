@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class InputManager {
-
+    private static final String DELIMS = "[|\\s|\\[\\]\\(\\)]";
     // Removes every character after semicolon, then removes white space at end and BOM
     public static String trim(String in) {
         for(int i = 0; i < in.length(); i++) {
@@ -83,10 +83,16 @@ public class InputManager {
         return tokens;
     }
 
+    private static String sanitize(String in) {
+        return in.replaceAll("[-.\\+*?\\[^\\]$(){}=!<>|:\\\\]", "\\\\$0");
+    }
+
     public static String replace(String in, String key, String replacement) {
         //Fix functions not being saved correctly
         replacement = replacement.replace("\\","\\\\");
-
-        return in.replaceAll("\\b" + key + "\\b", replacement);
+        key = sanitize(key);
+        //Regex to match the specific key, as long as there's a delimiter or the line ends/start surrounding it
+        key = "(?<=^|[|\\s|\\[|\\]|\\(|\\)])" + key + "(?=$|[\\s|\\[|\\]|\\(|\\)])";
+        return in.replaceAll(key, replacement);
     }
 }

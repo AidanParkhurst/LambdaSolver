@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Variable implements Expression {
     private String name;
 
@@ -21,5 +24,27 @@ public class Variable implements Expression {
             return value;
 
         return this;
+    }
+
+    @Override
+    public Expression alphaReduce(Variable free, boolean first) {
+        return this;
+    }
+
+    @Override
+    public ArrayList<Variable> getFreeVars(ArrayList<Variable> bound) {
+        for(Variable v : bound) {
+            if(v.toString().equals(this.toString()))
+                return new ArrayList<>();
+        }
+
+        ArrayList<Variable> container = new ArrayList<>();
+        container.add(this);
+        return container;
+    }
+
+    @Override
+    public boolean canRun() {
+        return false;
     }
 }
