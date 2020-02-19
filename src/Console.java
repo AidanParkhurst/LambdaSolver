@@ -43,11 +43,13 @@ public class Console {
         int equalIndex = in.indexOf('=');
         if(equalIndex != -1) {
             String name = in.substring(0,equalIndex).trim();
-            String value = "(" + in.substring(equalIndex + 1) + ")";
-            definitions.put(name, value);
+            String toParse = in.substring(equalIndex + 1);
+            Expression parsed = parse(toParse);
+
+            definitions.put(name, parsed.toString());
 
             System.out.print("Defined " + name + " as ");
-            return parse(value);
+            return parsed;
         }
 
         //Is the user trying to run something?
