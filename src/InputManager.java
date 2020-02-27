@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class InputManager {
-    private static final String DELIMS = "[|\\s|\\[\\]\\(\\)]";
     // Removes every character after semicolon, then removes white space at end and BOM
     public static String trim(String in) {
         for(int i = 0; i < in.length(); i++) {

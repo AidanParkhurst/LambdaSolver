@@ -28,7 +28,7 @@ public class Function implements Expression {
 
     @Override
     public boolean canRun() {
-        return true;
+        return definition.canRun();
     }
 
     @Override

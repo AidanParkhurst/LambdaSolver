@@ -51,6 +51,9 @@ public class Application implements Expression {
 
     @Override
     public boolean canRun() {
+        if(left instanceof Function)
+            return true;
+
         return left.canRun() || right.canRun();
     }
 
