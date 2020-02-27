@@ -59,7 +59,11 @@ public class Console {
             Expression parsed = parse(toRun);
             Expression result = parsed.alphaReduce(null, true);
 
-            return result.run();
+            while(result.canRun()) {
+                result = result.run();
+            }
+
+            return result;
         }
 
         //The user is just writing an expression

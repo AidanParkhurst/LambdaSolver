@@ -18,7 +18,7 @@ public class Function implements Expression {
             return new Function(parameter, definition.feed(var, value));
         }
 
-        return definition.feed(parameter, value).run();
+        return definition.feed(parameter, value);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Application implements Expression {
         }
         //Otherwise the left or right may be able to run individually
         else if(this.canRun()) {
-            return new Application(left.run(),right.run()).run();
+            return new Application(left.run(),right.run());
         }
 
         //If neither of those are true, we can't run anything
