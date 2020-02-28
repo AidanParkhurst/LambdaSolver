@@ -82,6 +82,7 @@ public class InputManager {
         return tokens;
     }
 
+    //Replaces any special regex characters with the properly escaped versions
     private static String sanitize(String in) {
         return in.replaceAll("[-.\\+*?\\[^\\]$(){}=!<>|:\\\\]", "\\\\$0");
     }

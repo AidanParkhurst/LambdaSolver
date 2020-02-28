@@ -9,20 +9,22 @@ public class Console {
         String current = tokens.remove(tokens.size() - 1);
         Expression converted;
 
-        //If the current token is an expression, parse it. Otherwise its just a variable
+        //If the current token is an expression, parse it.
         if(current.charAt(0) == '(')
             converted = parse(current.substring(1, current.length() - 1));
-        else
-            converted = new Variable(current);
 
         //If the current token is a function, make the parameter a variable and parse the right side
-        if(current.charAt(0) == '\\' || current.charAt(0) == 'λ') {
+        else if(current.charAt(0) == '\\' || current.charAt(0) == 'λ') {
             int dot = current.indexOf('.');
             Variable param = new Variable(current.substring(1,dot).trim());
             Expression def = parse(current.substring(dot+1));
 
             converted = new Function(param, def);
         }
+
+        //Otherwise the current token is just a variable
+        else
+            converted = new Variable(current);
 
         //If we took the last item off the list, we're done
         if(tokens.size() == 0)
