@@ -1,3 +1,5 @@
+import jdk.internal.util.xml.impl.Input;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +36,50 @@ public class Console {
         return (new Application(buildExpression(tokens), converted));
     }
 
+    private static Expression populate(String in) {
+        //Get the numbers out
+        String numbers = in.replace("populate", "");
+        ArrayList<String> splitNums = InputManager.split(numbers);
+        int lowerBound = Integer.parseInt(splitNums.get(0));
+        int upperBound = Integer.parseInt(splitNums.get(1));
+
+        //If 0 is not the lower bound, we need to iterate up to the starting number
+        String base = "";
+        if(lowerBound == 0)
+            base = "(\\f.\\x.x)";
+        else {
+            base = "(\\f.\\x.";
+            for(int i = 0; i < lowerBound; i++) {
+                base = base + "(f ";
+            }
+            base = base + "x";
+            for(int i = 0; i <= lowerBound; i++) {
+                base = base + ")";
+            }
+        }
+
+        //Used to increment
+        String succ = "(\\n.\\f.\\x.f (n f x))";
+        //Save all of the numbers from the lower bound to the upper bound
+        for (int j = lowerBound; j <= upperBound; j++) {
+            //Save the current number
+            Expression defined = parse("run " + base);
+            definitions.put(Integer.toString(j), defined.toString());
+
+            //Advance to next number
+            base = "(" + succ + base + ")";
+        }
+
+        //Return it as a variable, the toString prints
+        return new Variable("Populated " + lowerBound + " to " + upperBound);
+    }
+
     private static Expression parse(String in) {
+
+        boolean populating = in.contains("populate");
+        if(populating) {
+            return populate(in);
+        }
 
         //Replace any definitions we have
         for(String defined : definitions.keySet()) {
