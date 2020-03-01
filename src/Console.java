@@ -44,30 +44,24 @@ public class Console {
         int upperBound = Integer.parseInt(splitNums.get(1));
 
         //If 0 is not the lower bound, we need to iterate up to the starting number
-        String base = "";
-        if(lowerBound == 0)
-            base = "(\\f.\\x.x)";
-        else {
-            base = "(\\f.\\x.";
-            for(int i = 0; i < lowerBound; i++) {
-                base = base + "(f ";
-            }
-            base = base + "x";
-            for(int i = 0; i <= lowerBound; i++) {
-                base = base + ")";
-            }
+        String base = "(\\f.\\x.";
+        for(int i = 0; i < lowerBound; i++) {
+            base = base + "(f ";
         }
 
-        //Used to increment
-        String succ = "(\\n.\\f.\\x.f (n f x))";
+        String ending = "x)";
+        for(int i = 0; i < lowerBound; i++) {
+            ending = ending + ")";
+        }
+
         //Save all of the numbers from the lower bound to the upper bound
         for (int j = lowerBound; j <= upperBound; j++) {
             //Save the current number
-            Expression defined = parse("run " + base);
-            definitions.put(Integer.toString(j), defined.toString());
+            definitions.put(Integer.toString(j), base + ending);
 
             //Advance to next number
-            base = "(" + succ + base + ")";
+            base = base + "(f ";
+            ending = ending + ")";
         }
 
         //Return it as a variable, the toString prints
