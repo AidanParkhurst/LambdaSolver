@@ -1,5 +1,3 @@
-import jdk.internal.util.xml.impl.Input;
-
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +41,7 @@ public class Console {
         int lowerBound = Integer.parseInt(splitNums.get(0));
         int upperBound = Integer.parseInt(splitNums.get(1));
 
-        //If 0 is not the lower bound, we need to iterate up to the starting number
+        //Iterate up to the starting number
         String base = "(\\f.\\x.";
         for(int i = 0; i < lowerBound; i++) {
             base = base + "(f ";
@@ -54,7 +52,7 @@ public class Console {
             ending = ending + ")";
         }
 
-        //Save all of the numbers from the lower bound to the upper bound
+        //Save the numbers from the lower bound to the upper bound
         for (int j = lowerBound; j <= upperBound; j++) {
             //Save the current number
             definitions.put(Integer.toString(j), base + ending);
