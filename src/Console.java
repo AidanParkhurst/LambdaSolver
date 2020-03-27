@@ -1,3 +1,5 @@
+//Made by Aidan Parkhurst and Marcus San Antonio
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,11 +75,6 @@ public class Console {
             return populate(in);
         }
 
-        //Replace any definitions we have
-        for(String defined : definitions.keySet()) {
-            in = InputManager.replace(in, defined, definitions.get(defined));
-        }
-
         //Is the user defining something?
         int equalIndex = in.indexOf('=');
         if(equalIndex != -1) {
@@ -85,10 +82,19 @@ public class Console {
             String toParse = in.substring(equalIndex + 1);
             Expression parsed = parse(toParse);
 
+            if(definitions.containsKey(name)) {
+                return new Variable("Cannot redefine " + name);
+            }
+
             definitions.put(name, parsed.toString());
 
             System.out.print("Defined " + name + " as ");
             return parsed;
+        }
+
+        //Replace any definitions we have
+        for(String defined : definitions.keySet()) {
+            in = InputManager.replace(in, defined, definitions.get(defined));
         }
 
         //Is the user trying to run something?

@@ -1,3 +1,5 @@
+//Made by Aidan Parkhurst and Marcus San Antonio
+
 import java.util.ArrayList;
 
 public class InputManager {
@@ -88,10 +90,8 @@ public class InputManager {
     }
 
     public static String replace(String in, String key, String replacement) {
-        //Fix functions not being saved correctly
-        replacement = replacement.replace("\\","\\\\");
         key = sanitize(key);
-        //Regex to match the specific key, as long as there's a delimiter or the line ends/start surrounding it
+        //Regex to match the specific key, as long as there's a delimiter or the line ends/starts surrounding it
         key = "(?<=^|[|\\s|\\[|\\]|\\(|\\)])" + key + "(?=$|[\\s|\\[|\\]|\\(|\\)])";
         return in.replaceAll(key, replacement);
     }
