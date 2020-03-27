@@ -44,7 +44,7 @@ public class Console {
         int upperBound = Integer.parseInt(splitNums.get(1));
 
         //Iterate up to the starting number
-        String base = "(\\f.\\x.";
+        String base = "(λf.λx.";
         for(int i = 0; i < lowerBound; i++) {
             base = base + "(f ";
         }
